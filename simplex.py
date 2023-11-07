@@ -102,8 +102,11 @@ def commarize(n):
             n[pos]=fractions.Fraction(int(i.split("/")[0]),int(i.split("/")[1]))
     return n
 
-# Pretty prints a matrix(list of lists) row by row
-def prettyprint(l):
+# Pretty prints a matrix(list of lists) row by row.
+# Also prints the cost row. Input the cost row as a string: "-z,x1,x2...,RHS"
+def prettyprint(cr,l):
+    cr=cr.split(",")
+    print(cr,end="\n")
     l2=copy.deepcopy(l)
     for pos,i in enumerate(l2):
             for posi,j in enumerate(i):
@@ -113,8 +116,18 @@ def prettyprint(l):
                     l2[pos][posi] = str(l2[pos][posi])
             print(i,end="\n")
 
-# Generates latex code given a matrix(list of lists)
-def generator(l):
+# Generates latex code given the cost row(-z,x1,x2...,RHS) and a matrix(list of lists). 
+# Format of cost row as a string: "-z,x1,x2...,RHS"
+def generator(cr,l):
+    cr=cr.split(",")
+    for i in range(len(cr)):
+        if i!=len(cr)-1:
+            if len(cr[i])!=2 or cr[i][-1].isdigit()==False:
+                print(cr[i],end=" & ")
+            else:
+                print("$"+cr[i][0]+"_"+cr[i][-1]+"$",end=" & ")
+        else:
+            print(cr[i],end=" \\\ [0.85mm] \\hline \n")
     for i in l:
         for posi,j in enumerate(i):
                 if type(j) == int and posi == len(i)-1:
@@ -143,4 +156,3 @@ def completedsimplex(l):
         l=copy.deepcopy(l2)
         l2=pivot(l2)
     return l2
-
