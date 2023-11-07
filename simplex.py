@@ -63,7 +63,6 @@ def pivot(l):
     col=[]
     column=0
     for i in range(0,len(l)):
-        print(l[i][er])
         col.append(l[i][er])
     min = 100000
     for i in range(1,len(col)):
@@ -119,14 +118,14 @@ def generator(l):
     for i in l:
         for posi,j in enumerate(i):
                 if type(j) == int and posi == len(i)-1:
-                    print(j,end=" \\\ \\hline \n")
+                    print(j,end=" \\\ [0.85mm] \\hline \n")
                 elif type(j) != int and posi == len(i)-1:
                     if j.denominator == 1:
-                        print(j.numerator,end=" \\\ \\hline \n")
+                        print(j.numerator,end=" \\\ [0.85mm] \\hline \n")
                     elif j.numerator == 0:
-                        print(0,end=" \\\ \\hline \n")
+                        print(0,end=" \\\ [0.85mm] \\hline \n")
                     else:
-                        print("$\frac{"+str(j.numerator)+"}{"+str(j.denominator)+"}$",end=" \\\ \\hline \n")
+                        print("$\frac{"+str(j.numerator)+"}{"+str(j.denominator)+"}$",end=" \\\ [0.85mm] \\hline \n")
                 elif type(j) == int:
                     print(j,end=" & ")
                 else:
@@ -136,3 +135,12 @@ def generator(l):
                         print(0,end=" & ")
                     else:
                         print("$\\frac{"+str(j.numerator)+"}{"+str(j.denominator)+"}$",end=" & ")
+
+def completedsimplex(l):
+    l2=copy.deepcopy(l)
+    l2=pivot(l2)
+    while l2 != l:
+        l=copy.deepcopy(l2)
+        l2=pivot(l2)
+    return l2
+
