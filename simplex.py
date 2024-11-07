@@ -58,6 +58,7 @@ def pivot(l):
             if l[0][pos]>=max:
                 max = l[0][pos]
                 er = pos
+    print("Entering variable: x"+str(er+1))
     if max == 0:
         return l
     col=[]
@@ -72,6 +73,7 @@ def pivot(l):
                 column = i
     if min == 100000:
         return l
+
     l2=copy.deepcopy(l)
     low=l2[column][er]
     for k in range(0,len(l2[column])):
@@ -138,7 +140,7 @@ def generator(cr,l):
                     elif j.numerator == 0:
                         print(0,end=" \\\ [0.85mm] \\hline \n")
                     else:
-                        print("$\frac{"+str(j.numerator)+"}{"+str(j.denominator)+"}$",end=" \\\ [0.85mm] \\hline \n")
+                        print("$\\frac{"+str(j.numerator)+"}{"+str(j.denominator)+"}$",end=" \\\ [0.85mm] \\hline \n")
                 elif type(j) == int:
                     print(j,end=" & ")
                 else:
@@ -149,10 +151,24 @@ def generator(cr,l):
                     else:
                         print("$\\frac{"+str(j.numerator)+"}{"+str(j.denominator)+"}$",end=" & ")
 
-def completedsimplex(l):
+# Takes a cost row(-z,x1,x2...,RHS) and a matrix(list of lists) and performs the simplex method on it.
+# Prints the tableaus in latex code.
+def completedsimplex(cr,l):
+    lists = []
     l2=copy.deepcopy(l)
     l2=pivot(l2)
     while l2 != l:
+        lists.append(l2)
         l=copy.deepcopy(l2)
         l2=pivot(l2)
-    return l2
+    ls = cr.split(",")
+    lines = "|"
+    for l in range(0,len(ls)):
+        lines = lines + "l|"
+    for pos,i in enumerate(lists):
+        print("\\textbf{Tableau "+str(pos)+"} \[0.85mm]\n")
+        print("\\begin{tabular}{"+lines+"}\n")
+        print("\\hline\n")
+        generator(cr,i)
+        print("\\end{tabular}\n")
+
