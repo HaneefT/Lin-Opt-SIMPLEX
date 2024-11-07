@@ -58,7 +58,6 @@ def pivot(l):
             if l[0][pos]>=max:
                 max = l[0][pos]
                 er = pos
-    print("Entering variable: x"+str(er+1))
     if max == 0:
         return l
     col=[]
@@ -120,7 +119,14 @@ def prettyprint(cr,l):
 
 # Generates latex code given the cost row(-z,x1,x2...,RHS) and a matrix(list of lists). 
 # Format of cost row as a string: "-z,x1,x2...,RHS"
-def generator(cr,l):
+def generator(cr,l,pos):
+    ls = cr.split(",")
+    lines = "|"
+    for li in range(0,len(ls)):
+        lines = lines + "l|"
+    print("\\textbf{Tableau "+str(pos+1)+"} \\\ [0.85mm]\n")
+    print("\\begin{tabular}{"+lines+"}\n")
+    print("\\hline\n")
     cr=cr.split(",")
     for i in range(len(cr)):
         if i!=len(cr)-1:
@@ -150,6 +156,7 @@ def generator(cr,l):
                         print(0,end=" & ")
                     else:
                         print("$\\frac{"+str(j.numerator)+"}{"+str(j.denominator)+"}$",end=" & ")
+    print("\\end{tabular}\n")
 
 # Takes a cost row(-z,x1,x2...,RHS) and a matrix(list of lists) and performs the simplex method on it.
 # Prints the tableaus in latex code.
@@ -161,14 +168,7 @@ def completedsimplex(cr,l):
         lists.append(l2)
         l=copy.deepcopy(l2)
         l2=pivot(l2)
-    ls = cr.split(",")
-    lines = "|"
-    for l in range(0,len(ls)):
-        lines = lines + "l|"
     for pos,i in enumerate(lists):
-        print("\\textbf{Tableau "+str(pos)+"} \[0.85mm]\n")
-        print("\\begin{tabular}{"+lines+"}\n")
-        print("\\hline\n")
-        generator(cr,i)
-        print("\\end{tabular}\n")
+        generator(cr,i,pos)
 
+print(fractions.Fraction(1,2))
